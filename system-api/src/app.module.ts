@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { AppService } from './app.service';
         return { uri };
       },
       inject: [ConfigService],
-    })
+    }),
+    TransactionsModule
   ],
   controllers: [AppController],
   providers: [AppService],
