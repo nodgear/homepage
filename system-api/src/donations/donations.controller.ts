@@ -1,16 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AdministratorsService } from 'src/administrators/administrators.service';
 import { DonationsService } from './donations.service';
 import { CreateDonationDto } from './dto/create-donation.dto';
-import { UpdateDonationDto } from './dto/update-donation.dto';
 
 @ApiTags('donations')
 @Controller('donations')
 export class DonationsController {
-  constructor(private readonly donationsService: DonationsService) {}
+  constructor(private readonly donationsService: DonationsService,
+    private readonly administratorsService: AdministratorsService) {}
 
   @Post()
-  create(@Body() dto: CreateDonationDto) {
+  async create(@Body() dto: CreateDonationDto) {
+    try {
+      await this.administratorsService.verifyUser(dto);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
     return this.donationsService.create(dto);
   }
   
@@ -34,15 +40,15 @@ export class DonationsController {
     return this.donationsService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateDonationDto) {
-    return this.donationsService.update(id, dto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() dto: UpdateDonationDto) {
+  //   return this.donationsService.update(id, dto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.donationsService.remove(id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.donationsService.remove(id);
+  // }
 
  
 }

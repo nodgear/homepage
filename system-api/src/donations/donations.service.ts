@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { AdministratorsService } from 'src/administrators/administrators.service';
 import { CreateDonationDto } from './dto/create-donation.dto';
 import { UpdateDonationDto } from './dto/update-donation.dto';
 import { Donation, DonationDocument } from './entities/donation.entity';
@@ -10,6 +11,7 @@ export class DonationsService {
   constructor(
     @InjectModel(Donation.name)
     private model: Model<DonationDocument>,
+    private administratorsService: AdministratorsService,
   ) { }
 
 
@@ -18,8 +20,9 @@ export class DonationsService {
   }
 
   async create(dto: CreateDonationDto) {
-    const rawData = { ...dto };
+    await this.administratorsService.verifyUser(dto);
 
+    const rawData = { ...dto };
     await this.transformBody(rawData);
 
     const created = new this.model(rawData);
