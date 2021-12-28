@@ -11,9 +11,9 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   scroll-behavior: smooth;
-  background-color: #22323f;
+  /* background-color: #22323f; */
   color: #fff;
-  background-image: url('/bg.png');
+  background: linear-gradient(#16222b8e,#16222b8e), url('/bg.png');
   background-size: cover;
   background-repeat: no-repeat;
   font-family: 'Poppins', sans-serif;
