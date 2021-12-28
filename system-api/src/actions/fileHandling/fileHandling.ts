@@ -6,13 +6,11 @@ export class Helper {
           fileExtension = "jpeg"
       }else if(file.mimetype.indexOf("png") > -1){
           fileExtension = "png";
-      }else if(file.mimetype.indexOf("pdf") > -1){
-          fileExtension = "pdf";
       }else if(file.mimetype.indexOf("jpg") > -1){
           fileExtension = "jpg";
       }
       const originalName = file.originalname.split(".")[0];
-      cb(null, originalName + '-' + uniqueSuffix+"."+fileExtension);
+      cb(null, originalName + '-' +'donation'+uniqueSuffix+"."+fileExtension);
     }
    
 }

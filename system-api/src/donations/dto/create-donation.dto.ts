@@ -7,7 +7,6 @@ export class CreateDonationDto {
   @IsString()
   name: string;
 
-  //FIXME: value nao seria number??
   @ApiProperty()
   @IsNotEmpty()
   value: number;
