@@ -3,9 +3,7 @@ import { Document } from 'mongoose';
 
 export type DonationDocument = Donation & Document;
 
-//FIXME: createdAt
-
-@Schema()
+@Schema({ timestamps: true })
 export class Donation {
   @Prop({ required: true })
   name: string;
