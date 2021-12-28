@@ -1,9 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateActionDto } from './dto/create-action.dto';
 import { UpdateActionDto } from './dto/update-action.dto';
+import { Action, ActionDocument } from './entities/action.entity';
 
 @Injectable()
 export class ActionsService {
+  constructor(
+    @InjectModel(Action.name)
+    private model: Model<ActionDocument>,
+  ) {}
 
   public validSendFile(files) {
     if (files.length === 0) {
@@ -17,17 +24,18 @@ export class ActionsService {
   }
 
   private createSaveObject(files, dto) {
-    //return { title: dto.title, description: dto.description, amount: dto.amount, fileName, documentPath }
+    return { title: dto.title, description: dto.description, amount: dto.amount, fileName: dto.fileName, documentPath:files }
   }
 
-  create(files, dto: CreateActionDto) {
+  async create(files, dto: CreateActionDto) {
     this.validSendFile(files);
 
     this.formatBody(dto);
 
-    const data = 0;
+    const data = this.createSaveObject(files,dto);
 
-    return 'This action adds a new action';
+    const created = new this.model(data);
+    return await created.save();
   }
 
   findAll() {

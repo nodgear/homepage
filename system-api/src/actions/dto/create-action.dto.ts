@@ -13,4 +13,9 @@ export class CreateActionDto {
     @ApiProperty()
     @IsNotEmpty()
     amount: number;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    fileName: string;
+
 }
