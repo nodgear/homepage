@@ -9,10 +9,12 @@ const QuemSomos = () => {
       <div className='flex flex-col lg:w-1/2'>
         <h1 className='w-full px-3 mb-6 text-2xl font-bold text-center uppercase lg:mb-12 text-accent'>Quem somos</h1>
         <p className='mb-2 text-lg lg:px-3'>
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. 
+        Somos um grupo formado por docentes e estudantes da rede Uniftc, que nos unimos com o objetivo de colaborar com as famílias do Sul da Bahia, que estão enfrentando uma situação bastante difícil, devido às fortes chuvas que tem assolado essa região. Por entendermos que temos uma responsabilidade social e que podemos e devemos ser agentes de transformação, convidamos você para fazer parte deste movimento. 
+Juntos podemos transformar!!
         </p>
         <p className='mb-2 text-lg lg:px-3'>
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+        Esta plataforma foi criada para que você possa fazer sua contribuição e, além disso, acompanhar todo o direcionamento das doações de forma transparente.
+Todo valor arrecadado será direcionado para Organizações não governamentais que já estão envolvidas no trabalho de assistência as pessoas necessitadas.
         </p>
         <People list={config.contribuidores} onPick={(person)=>{
           console.log(person)
