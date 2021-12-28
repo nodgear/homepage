@@ -12,7 +12,7 @@ import { CalculationsModule } from 'src/calculations/calculations.module';
       { name: Donation.name, schema: DonationSchema },
     ]),
     AdministratorsModule,
-    CalculationsModule
+    CalculationsModule,
   ],
   controllers: [DonationsController],
   providers: [DonationsService],
