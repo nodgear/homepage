@@ -4,7 +4,20 @@ import { UpdateActionDto } from './dto/update-action.dto';
 
 @Injectable()
 export class ActionsService {
-  create(createActionDto: CreateActionDto) {
+
+  public validSendFile(files) {
+    if (files.length === 0) {
+      throw Error('Necessário enviar no mínimo 1 arquivo.');
+    }
+  }
+
+  private formatBody(dto: any){
+    if (dto.typeDoc) dto.typeDoc = dto.typeDoc.toLowerCase();
+    if (dto.otherTypeSector) dto.otherTypeSector = dto.otherTypeSector.toLowerCase();
+  }
+
+  create(files, dto: CreateActionDto) {
+    this.validSendFile(files);
     return 'This action adds a new action';
   }
 

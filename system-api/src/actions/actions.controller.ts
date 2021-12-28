@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, BadRequestException } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
@@ -13,7 +13,7 @@ export class ActionsController {
   constructor(private readonly actionsService: ActionsService) { }
 
   @Post()
-  @UseInterceptors(FilesInterceptor('documentPath', 20, {
+  @UseInterceptors(FilesInterceptor('documentPath', 5, {
     storage: diskStorage({
       destination: 'src/actions/files',
       //filename: Helper.customFileName,
@@ -28,7 +28,12 @@ export class ActionsController {
       }
       response.push(fileResponse);
     });
-    return this.actionsService.create(dto);
+    try {
+      await this.actionsService.validSendFile(response);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+    return this.actionsService.create(response, dto);
   }
 
   @Get()
