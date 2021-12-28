@@ -3,6 +3,7 @@ import {
   IsEmail,
   IsNotEmpty,
   IsNumber,
+  IsNumberString,
   IsOptional,
   IsString,
   IS_LENGTH,
@@ -11,9 +12,9 @@ import {
 
 export class GetDonationsDto {
   @ApiProperty({ required: false })
-  @IsNumber()
   @IsOptional()
-  page?: number;
+  @IsNumberString()
+  page?: string;
 
   @ApiProperty({ required: false })
   @IsString()
@@ -23,6 +24,6 @@ export class GetDonationsDto {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsNumber()
-  limit?: number;
+  @IsNumberString()
+  limit?: string;
 }

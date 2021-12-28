@@ -4,6 +4,7 @@ import { DonationsController } from './donations.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Donation, DonationSchema } from './entities/donation.entity';
 import { AdministratorsModule } from 'src/administrators/administrators.module';
+import { CalculationsModule } from 'src/calculations/calculations.module';
 
 @Module({
   imports: [
@@ -11,8 +12,9 @@ import { AdministratorsModule } from 'src/administrators/administrators.module';
       { name: Donation.name, schema: DonationSchema },
     ]),
     AdministratorsModule,
+    CalculationsModule
   ],
   controllers: [DonationsController],
-  providers: [DonationsService]
+  providers: [DonationsService],
 })
 export class DonationsModule {}

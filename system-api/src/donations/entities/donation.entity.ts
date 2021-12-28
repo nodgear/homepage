@@ -11,7 +11,6 @@ export class Donation {
   @Prop({ required: true })
   value: number;
 
-  //FIXME: userId
   @Prop({ required: true })
   administratorId: string;
 }

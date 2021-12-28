@@ -21,7 +21,7 @@ export class DonationsController {
   constructor(
     private readonly donationsService: DonationsService,
     private readonly administratorsService: AdministratorsService,
-  ) {}
+  ) { }
 
   @Post()
   async create(@Body() dto: CreateDonationDto) {
@@ -37,12 +37,6 @@ export class DonationsController {
     // }
     return this.donationsService.create(dto);
   }
-
-  @Get('amount')
-  getAmount() {
-    return this.donationsService.findAmount();
-  }
-
   //FIXME: retirar "all" do path, e filtrar via query nesse mesmo metodo
   @Get()
   findAll(@Query() dto: GetDonationsDto) {

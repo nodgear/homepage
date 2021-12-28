@@ -1,4 +1,4 @@
-import { Inject, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { DonationsModule } from './donations/donations.module';
 import { AdministratorsModule } from './administrators/administrators.module';
 import { ActionsModule } from './actions/actions.module';
+import { CalculationsModule } from './calculations/calculations.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ActionsModule } from './actions/actions.module';
     DonationsModule,
     AdministratorsModule,
     ActionsModule,
+    CalculationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
