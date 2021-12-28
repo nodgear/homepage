@@ -1,14 +1,14 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from 'mongoose';
 
-export type AdministratorDocument =  Administrator & Document;
+export type AdministratorDocument = Administrator & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Administrator {
-    @Prop({ unique: true })
+    @Prop({ unique: true, required: true })
     email: string;
-  
-    @Prop()
+
+    @Prop({ required: true })
     password: string;
 }
 export const AdministratorSchema = SchemaFactory.createForClass(Administrator);

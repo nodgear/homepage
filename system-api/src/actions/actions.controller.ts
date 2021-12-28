@@ -1,15 +1,34 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
+import { diskStorage } from 'multer';
 import { ActionsService } from './actions.service';
 import { CreateActionDto } from './dto/create-action.dto';
 import { UpdateActionDto } from './dto/update-action.dto';
 
+
+@ApiTags('actions')
 @Controller('actions')
 export class ActionsController {
-  constructor(private readonly actionsService: ActionsService) {}
+  constructor(private readonly actionsService: ActionsService) { }
 
   @Post()
-  create(@Body() createActionDto: CreateActionDto) {
-    return this.actionsService.create(createActionDto);
+  @UseInterceptors(FilesInterceptor('documentPath', 20, {
+    storage: diskStorage({
+      destination: 'src/actions/files',
+      //filename: Helper.customFileName,
+    }),
+  }))
+  async create(@UploadedFiles() files, @Body() dto: CreateActionDto) {
+    const response = [];
+    files.forEach(file => {
+      const fileResponse = {
+        originalname: file.originalname,
+        filename: file.filename,
+      }
+      response.push(fileResponse);
+    });
+    return this.actionsService.create(dto);
   }
 
   @Get()
@@ -18,17 +37,17 @@ export class ActionsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.actionsService.findOne(+id);
+  findOne(@Param('id') _id: string) {
+    return this.actionsService.findOne(_id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateActionDto: UpdateActionDto) {
-    return this.actionsService.update(+id, updateActionDto);
+  update(@Param('id') _id: string, @Body() dto: UpdateActionDto) {
+    return this.actionsService.update(_id, dto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.actionsService.remove(+id);
+  remove(@Param('id') _id: string) {
+    return this.actionsService.remove(_id);
   }
 }

@@ -12,15 +12,15 @@ export class ActionsService {
     return `This action returns all actions`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} action`;
+  findOne(_id: string) {
+    return `This action returns a #${_id} action`;
   }
 
-  update(id: number, updateActionDto: UpdateActionDto) {
-    return `This action updates a #${id} action`;
+  update(_id: string, dto: UpdateActionDto) {
+    return `This action updates a #${_id} action`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} action`;
+  remove(_id: string) {
+    return `This action removes a #${_id} action`;
   }
 }
