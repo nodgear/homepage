@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { AdministratorsService } from 'src/administrators/administrators.service';
@@ -25,6 +29,7 @@ export class DonationsService {
   }
 
   async create(dto: CreateDonationDto) {
+    if (dto.value <= 0) throw new BadRequestException('O valor não pode ser 0');
     const user = await this.administratorsService.findOne({
       email: dto.emailUser,
     });
@@ -38,9 +43,9 @@ export class DonationsService {
     delete dto.emailUser;
     delete dto.passwordUser;
 
-    const danationsInfo = await this.calculationService.findOne();
-    if (!danationsInfo)
-      throw new ConflictException('Cálculos das doações não encontrados');
+    const danationsInfo =
+      (await this.calculationService.findOne()) ||
+      ({ amount: 0, donationsCount: 0 } as CreateCalculationDto);
 
     const newDonationsInfo = {} as CreateCalculationDto;
     newDonationsInfo.amount = danationsInfo.amount + dto.value;

@@ -14,11 +14,16 @@ export class CalculationsService {
     private model: Model<CalculationDocument>,
   ) {}
   async save(createCalculationDto: CreateCalculationDto, session: any) {
+    console.log(createCalculationDto);
     return await this.model.findOneAndUpdate(
       {},
-      { createCalculationDto },
-      { upsert: true, session },
+      {
+        amount: createCalculationDto.amount,
+        donationsCount: createCalculationDto.donationsCount,
+      },
+      { upsert: true },
     );
+    // .session(session);
   }
 
   async findOne() {
