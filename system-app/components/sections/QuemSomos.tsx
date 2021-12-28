@@ -14,7 +14,10 @@ const QuemSomos = () => {
         <p className='px-3 mb-2 text-lg'>
           Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
         </p>
-        <People list={config.contribuidores}/>
+        <People list={config.contribuidores} onPick={(person)=>{
+          console.log(person)
+           //TODO: Alguém faz o modal <3
+        }} />
       </div>
       <div className='flex flex-col w-full'>
 
