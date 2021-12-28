@@ -5,7 +5,7 @@ export type DonationDocument = Donation & Document;
 
 @Schema({ timestamps: true })
 export class Donation {
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   name: string;
 
   @Prop({ required: true })

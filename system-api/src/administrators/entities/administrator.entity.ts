@@ -5,7 +5,7 @@ export type AdministratorDocument = Administrator & Document;
 
 @Schema({ timestamps: true })
 export class Administrator {
-  @Prop({ unique: true, required: true })
+  @Prop({ unique: true, required: true, index: true })
   email: string;
 
   @Prop({ required: true })

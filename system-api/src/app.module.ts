@@ -6,7 +6,6 @@ import { AppService } from './app.service';
 import { DonationsModule } from './donations/donations.module';
 import { AdministratorsModule } from './administrators/administrators.module';
 import { ActionsModule } from './actions/actions.module';
-// import { CalculationsModule } from './calculations/calculations.module';
 
 @Module({
   imports: [
