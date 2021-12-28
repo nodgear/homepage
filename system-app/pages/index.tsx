@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Navbar from '@components/Navbar'
 import QuemSomos from '@components/sections/QuemSomos'
+import DonationFeed from '@components/sections/DonationFeed'
 
 export default function Home() {
   return <>
@@ -16,5 +17,11 @@ export default function Home() {
     </Head>
     <Navbar />
     <QuemSomos />
+    <DonationFeed list={[
+      {
+        name: 'Fulano',
+        value: 50
+      }
+    ]}/>
   </>
 }
