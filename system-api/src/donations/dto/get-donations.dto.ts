@@ -10,18 +10,18 @@ import {
 } from 'class-validator';
 
 export class GetDonationsDto {
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
   page?: number;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
   @Length(3)
   @IsOptional()
   name?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsNumber()
   limit?: number;
