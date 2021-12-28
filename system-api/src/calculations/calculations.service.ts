@@ -21,9 +21,8 @@ export class CalculationsService {
         amount: createCalculationDto.amount,
         donationsCount: createCalculationDto.donationsCount,
       },
-      { upsert: true },
+      { upsert: true, session },
     );
-    // .session(session);
   }
 
   async findOne() {
