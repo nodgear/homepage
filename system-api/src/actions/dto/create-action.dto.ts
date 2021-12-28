@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateActionDto {
     @ApiProperty()
@@ -18,4 +18,12 @@ export class CreateActionDto {
     @IsNotEmpty()
     fileName: string;
 
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsEmail()
+    emailUser: string;
+  
+    @ApiProperty()
+    @IsNotEmpty()
+    passwordUser: string;
 }

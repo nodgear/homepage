@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { join } from 'path/posix';
+import { AdministratorsService } from 'src/administrators/administrators.service';
 import { CreateActionDto } from './dto/create-action.dto';
 import { Action, ActionDocument } from './entities/action.entity';
 var fs = require('fs');
@@ -11,6 +12,7 @@ export class ActionsService {
   constructor(
     @InjectModel(Action.name)
     private model: Model<ActionDocument>,
+    private administratorsService: AdministratorsService,
   ) {}
 
 
@@ -41,6 +43,15 @@ export class ActionsService {
 
   async create(files, dto: CreateActionDto) {
     this.validSendFile(files, dto);
+
+    const user = await this.administratorsService.findOne({
+      email: dto.emailUser,
+    });
+    if (!user) throw new ConflictException('Usuário não encontrado');
+    await this.administratorsService.verifyPassword({
+      password: dto.passwordUser,
+      user,
+    });
 
     this.formatBody(dto);
 
