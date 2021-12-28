@@ -1,6 +1,20 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const navbar = () => {
+  const navbar = useRef(null)
+
+  useEffect(()=>{
+    var navbar = document.getElementById("navbar");
+
+    window.onscroll = function() {
+      "use strict";
+      if (document.body.scrollTop >= 280 || document.documentElement.scrollTop >= 280) {
+        navbar.classList.add("bg-[#16222b]");
+      } else {
+        navbar.classList.remove("bg-[#16222b]");
+      }
+    };
+  }, [])
 
   const NavItem = (props) => {
     return <li className='mx-3 transition-colors duration-300 hover:text-accent' >
@@ -9,7 +23,7 @@ const navbar = () => {
   }
 
   return (
-    <nav className='fixed flex w-full px-20 py-8'>
+    <nav className='fixed flex w-full px-20 py-8 transition-colors duration-300' ref={navbar} id='navbar'>
       <div className='mr-auto'>
         <img src="/logo_vertical.png" className='w-64'/>
       </div>
