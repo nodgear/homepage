@@ -14,7 +14,6 @@ export class CalculationsService {
     private model: Model<CalculationDocument>,
   ) {}
   async save(createCalculationDto: CreateCalculationDto, session: any) {
-    console.log(createCalculationDto);
     await this.model.findOneAndUpdate(
       undefined,
       {
