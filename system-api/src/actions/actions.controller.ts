@@ -26,34 +26,20 @@ export class ActionsController {
         const fileReponse = {
             originalname: file.originalname,
             filename: file.filename,
+            fileBuffer: ''
         };
         response.push(fileReponse);
     });
-    try {
-      await this.actionsService.validSendFile(response);
-    } catch (error) {
-      throw new BadRequestException(error.message);
-    }
+    // try {
+    //   await this.actionsService.validSendFile(response, dto);
+    // } catch (error) {
+    //   throw new BadRequestException(error.message);
+    // }
     return this.actionsService.create(response, dto);
   }
 
   @Get()
   findAll() {
     return this.actionsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') _id: string) {
-    return this.actionsService.findOne(_id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') _id: string, @Body() dto: UpdateActionDto) {
-    return this.actionsService.update(_id, dto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') _id: string) {
-    return this.actionsService.remove(_id);
   }
 }

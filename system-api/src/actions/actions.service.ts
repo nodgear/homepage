@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { join } from 'path/posix';
 import { CreateActionDto } from './dto/create-action.dto';
-import { UpdateActionDto } from './dto/update-action.dto';
 import { Action, ActionDocument } from './entities/action.entity';
+var fs = require('fs');
 
 @Injectable()
 export class ActionsService {
@@ -12,10 +13,21 @@ export class ActionsService {
     private model: Model<ActionDocument>,
   ) {}
 
-  public validSendFile(files) {
+
+  public fileToBase64(fileName){
+    const filename1 =  join(process.cwd()+`/src/actions/files/${fileName}`);
+    const binaryData = fs.readFileSync(filename1);
+    const base64 = Buffer.from(binaryData)
+    return base64;
+  }
+
+  public async validSendFile(files, dto) {
     if (files.length === 0) {
       throw Error('Necessário enviar no mínimo 1 arquivo.');
     }
+    const action = await this.model.findOne({ title: dto.title.toUpperCase() })
+    if(action)
+      throw Error('Ação já registrado');
   }
 
   private formatBody(dto: any) {
@@ -28,29 +40,20 @@ export class ActionsService {
   }
 
   async create(files, dto: CreateActionDto) {
-    this.validSendFile(files);
+    this.validSendFile(files, dto);
 
     this.formatBody(dto);
 
+    for (const iterator of files) {
+      iterator.fileBuffer = this.fileToBase64(iterator.filename)
+    }
     const data = this.createSaveObject(files,dto);
 
     const created = new this.model(data);
     return await created.save();
   }
 
-  findAll() {
-    return `This action returns all actions`;
-  }
-
-  findOne(_id: string) {
-    return `This action returns a #${_id} action`;
-  }
-
-  update(_id: string, dto: UpdateActionDto) {
-    return `This action updates a #${_id} action`;
-  }
-
-  remove(_id: string) {
-    return `This action removes a #${_id} action`;
+  async findAll() {
+    return await this.model.find();
   }
 }
