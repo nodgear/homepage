@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  BadRequestException,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AdministratorsService } from './administrators.service';
 import { CreateAdministratorDto } from './dto/create-administrator.dto';
@@ -6,12 +15,12 @@ import { CreateAdministratorDto } from './dto/create-administrator.dto';
 @ApiTags('administrators')
 @Controller('administrators')
 export class AdministratorsController {
-  constructor(private readonly administratorsService: AdministratorsService) { }
+  constructor(private readonly administratorsService: AdministratorsService) {}
 
   @Post()
   async create(@Body() dto: CreateAdministratorDto) {
     try {
-      await this.administratorsService.verifyUser(dto);
+      // await this.administratorsService.verifyUser(dto);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
