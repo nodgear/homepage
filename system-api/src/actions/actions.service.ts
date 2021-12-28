@@ -1,8 +1,15 @@
-import { ConflictException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { join } from 'path/posix';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
+import { join } from 'path';
+// import { join } from 'path/posix';
 import { AdministratorsService } from 'src/administrators/administrators.service';
+import { CalculationsService } from 'src/calculations/calculations.service';
+import { CreateCalculationDto } from 'src/calculations/dto/create-calculation.dto';
 import { CreateActionDto } from './dto/create-action.dto';
 import { Action, ActionDocument } from './entities/action.entity';
 var fs = require('fs');
@@ -11,15 +18,17 @@ var fs = require('fs');
 export class ActionsService {
   constructor(
     @InjectModel(Action.name)
-    private model: Model<ActionDocument>,
+    private model: mongoose.Model<ActionDocument>,
     private administratorsService: AdministratorsService,
+    private calculationsService: CalculationsService,
+    @InjectConnection()
+    private readonly connection: mongoose.Connection,
   ) {}
 
-
-  public fileToBase64(fileName){
-    const filename1 =  join(process.cwd()+`/src/actions/files/${fileName}`);
+  public fileToBase64(fileName) {
+    const filename1 = join(process.cwd() + `/src/actions/files/${fileName}`);
     const binaryData = fs.readFileSync(filename1);
-    const base64 = Buffer.from(binaryData)
+    const base64 = Buffer.from(binaryData);
     return base64;
   }
 
@@ -27,9 +36,8 @@ export class ActionsService {
     if (files.length === 0) {
       throw Error('Necessário enviar no mínimo 1 arquivo.');
     }
-    const action = await this.model.findOne({ title: dto.title.toUpperCase() })
-    if(action)
-      throw Error('Ação já registrado');
+    const action = await this.model.findOne({ title: dto.title.toUpperCase() });
+    if (action) throw Error('Ação já registrado');
   }
 
   private formatBody(dto: any) {
@@ -38,11 +46,19 @@ export class ActionsService {
   }
 
   private createSaveObject(files, dto) {
-    return { title: dto.title, description: dto.description, amount: dto.amount, fileName: dto.fileName, documentPath:files }
+    return {
+      title: dto.title,
+      description: dto.description,
+      amount: dto.amount,
+      fileName: dto.fileName,
+      documentPath: files,
+    };
   }
 
   async create(files, dto: CreateActionDto) {
     this.validSendFile(files, dto);
+    if (dto.amount <= 0)
+      throw new BadRequestException('O valor não pode ser menor ou igual a 0');
 
     const user = await this.administratorsService.findOne({
       email: dto.emailUser,
@@ -56,12 +72,23 @@ export class ActionsService {
     this.formatBody(dto);
 
     for (const iterator of files) {
-      iterator.fileBuffer = this.fileToBase64(iterator.filename)
+      iterator.fileBuffer = this.fileToBase64(iterator.filename);
     }
-    const data = this.createSaveObject(files,dto);
+    const data = this.createSaveObject(files, dto);
 
-    const created = new this.model(data);
-    return await created.save();
+    const action = new this.model(data);
+
+    const donationsInfo = await this.calculationsService.findOne();
+
+    const newDonationsInfo = {} as CreateCalculationDto;
+    newDonationsInfo.amount = (donationsInfo?.amount || 0) - dto.amount;
+
+    const session = await this.connection.startSession();
+    await session.withTransaction(async () => {
+      await action.save();
+      await this.calculationsService.save(newDonationsInfo, session);
+    });
+    session.endSession();
   }
 
   async findAll() {

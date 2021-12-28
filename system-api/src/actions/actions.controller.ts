@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  UploadedFiles,
+  BadRequestException,
+} from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
@@ -7,27 +18,27 @@ import { ActionsService } from './actions.service';
 import { CreateActionDto } from './dto/create-action.dto';
 import { Helper } from './fileHandling/fileHandling';
 
-
 @ApiTags('actions')
 @Controller('actions')
 export class ActionsController {
-  constructor(private readonly actionsService: ActionsService,
-  ) { }
+  constructor(private readonly actionsService: ActionsService) {}
 
   @Post()
-  @UseInterceptors(FilesInterceptor('documentPath', 5, {
-    storage: diskStorage({
-      destination: 'src/actions/files',
-      filename: Helper.customFileName,
+  @UseInterceptors(
+    FilesInterceptor('documentPath', 5, {
+      storage: diskStorage({
+        destination: 'src/actions/files',
+        filename: Helper.customFileName,
+      }),
     }),
-  }))
+  )
   async create(@UploadedFiles() files, @Body() dto: CreateActionDto) {
     const response = [];
-    files.forEach(file => {
+    files.forEach((file) => {
       const fileReponse = {
         originalname: file.originalname,
         filename: file.filename,
-        fileBuffer: ''
+        fileBuffer: '',
       };
       response.push(fileReponse);
     });
