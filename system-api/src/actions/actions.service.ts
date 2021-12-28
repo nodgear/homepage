@@ -11,13 +11,22 @@ export class ActionsService {
     }
   }
 
-  private formatBody(dto: any){
-    if (dto.typeDoc) dto.typeDoc = dto.typeDoc.toLowerCase();
-    if (dto.otherTypeSector) dto.otherTypeSector = dto.otherTypeSector.toLowerCase();
+  private formatBody(dto: any) {
+    if (dto.title) dto.title = dto.title.toUpperCase();
+    if (dto.description) dto.description = dto.description.toUpperCase();
+  }
+
+  private createSaveObject(files, dto) {
+    //return { title: dto.title, description: dto.description, amount: dto.amount, fileName, documentPath }
   }
 
   create(files, dto: CreateActionDto) {
     this.validSendFile(files);
+
+    this.formatBody(dto);
+
+    const data = 0;
+
     return 'This action adds a new action';
   }
 
