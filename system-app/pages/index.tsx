@@ -1,9 +1,11 @@
 import Head from 'next/head'
+import Navbar from '@components/Navbar'
+import QuemSomos from '@components/sections/QuemSomos'
 
 export default function Home() {
   return <>
     <Head>
-      <title>Título</title>
+      <title>Podemos Ajudar</title>
       <meta property="og:image" content="www.meusite.com.br/imagem.jpg"/>
       <meta property="og:image:type" content="image/jpeg"/>
       <meta property="og:image:width" content="800"/> 
@@ -12,8 +14,7 @@ export default function Home() {
       <meta property="og:site_name" content="Nome projeto"/>
       <meta property="og:type" content="website"/>
     </Head>
-    <div className='flex w-full h-screen items-center justify-center'>
-      Teste - OK
-    </div>
+    <Navbar />
+    <QuemSomos />
   </>
 }
