@@ -20,7 +20,7 @@ function People(props: PeopleProps) {
     {props.list.map( (person, index) => {
       return <li className={`mx-3 w-20 h-20 bg-[#494949] person-${index} rounded-md cursor-pointer`} onClick={()=>{
         props.onPick(person)
-      }}>
+      }} key={`${index}.${person.name}`}>
         <style jsx>
           {`
             .person-${index} {
