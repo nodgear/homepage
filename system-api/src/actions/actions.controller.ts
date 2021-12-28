@@ -5,6 +5,7 @@ import { diskStorage } from 'multer';
 import { ActionsService } from './actions.service';
 import { CreateActionDto } from './dto/create-action.dto';
 import { UpdateActionDto } from './dto/update-action.dto';
+import { Helper } from './fileHandling/fileHandling';
 
 
 @ApiTags('actions')
@@ -16,17 +17,17 @@ export class ActionsController {
   @UseInterceptors(FilesInterceptor('documentPath', 5, {
     storage: diskStorage({
       destination: 'src/actions/files',
-      //filename: Helper.customFileName,
+      filename: Helper.customFileName,
     }),
   }))
   async create(@UploadedFiles() files, @Body() dto: CreateActionDto) {
     const response = [];
     files.forEach(file => {
-      const fileResponse = {
-        originalname: file.originalname,
-        filename: file.filename,
-      }
-      response.push(fileResponse);
+        const fileReponse = {
+            originalname: file.originalname,
+            filename: file.filename,
+        };
+        response.push(fileReponse);
     });
     try {
       await this.actionsService.validSendFile(response);

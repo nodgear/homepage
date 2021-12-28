@@ -35,7 +35,7 @@ export class ActionsService {
     const data = this.createSaveObject(files,dto);
 
     const created = new this.model(data);
-    //return await created.save();
+    return await created.save();
   }
 
   findAll() {
