@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Navbar from '@components/Navbar'
 import QuemSomos from '@components/sections/QuemSomos'
 import DonationFeed from '@components/sections/DonationFeed'
+import OutboundTransaction from '@components/sections/OutboundTransaction'
 
 export default function Home() {
   return <>
@@ -23,5 +24,6 @@ export default function Home() {
         value: 50
       }
     ]} totalGathered={69} totalTransactions={69}/>
+    <OutboundTransaction />
   </>
 }
