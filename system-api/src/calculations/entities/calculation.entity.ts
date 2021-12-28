@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 
 export type CalculationDocument = Calculation & Document;
 
+@Schema()
 export class Calculation {
   @Prop({ required: true })
   amount: number;

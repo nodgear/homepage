@@ -17,10 +17,15 @@ import { Donation, DonationDocument } from './entities/donation.entity';
 export class DonationsService {
   constructor(
     @InjectModel(Donation.name)
-    private model: mongoose.Model<DonationDocument>,
+    private donationModel: mongoose.Model<DonationDocument>,
+    // @InjectModel(Calculation.name)
+    // private calculationModel: mongoose.Model<CalculationDocument>,
+
     private administratorsService: AdministratorsService,
-    private calculationService: CalculationsService,
-    @InjectConnection() private readonly connection: mongoose.Connection,
+    private calculationsService: CalculationsService,
+    // private calculationService: CalculationsService,
+    @InjectConnection()
+    private readonly connection: mongoose.Connection,
   ) {}
 
   private async transformBody(dto: any) {
@@ -43,15 +48,13 @@ export class DonationsService {
     delete dto.emailUser;
     delete dto.passwordUser;
 
-    const danationsInfo =
-      (await this.calculationService.findOne()) ||
-      ({ amount: 0, donationsCount: 0 } as CreateCalculationDto);
+    const donationsInfo = await this.calculationsService.findOne();
 
     const newDonationsInfo = {} as CreateCalculationDto;
-    newDonationsInfo.amount = danationsInfo.amount + dto.value;
-    newDonationsInfo.donationsCount = danationsInfo.donationsCount + 1;
+    newDonationsInfo.amount = (donationsInfo?.amount || 0) + dto.value;
+    newDonationsInfo.donationsCount = (donationsInfo?.donationsCount || 0) + 1;
 
-    const donation = new this.model({
+    const donation = new this.donationModel({
       administratorId: user._id,
       ...dto,
     });
@@ -59,9 +62,10 @@ export class DonationsService {
     const session = await this.connection.startSession();
     await session.withTransaction(async () => {
       await donation.save({ session });
-      await this.calculationService.save(newDonationsInfo, { session });
+      await this.calculationsService.save(newDonationsInfo, session);
     });
     session.endSession();
+
     return newDonationsInfo;
   }
 
@@ -75,15 +79,19 @@ export class DonationsService {
     if (props.name) {
       filter.name = props.name.toUpperCase();
     }
-    return await this.model
+    const doacoes = await this.donationModel
       .find(filter)
       .limit(limit)
       .skip(skip)
       .sort({ createdAt: 'desc' });
+    console.log(doacoes);
+
+    const { amount, donationsCount } = await this.calculationsService.findOne();
+    return { ...doacoes, amount, donationsCount };
   }
 
   async findOne(_id: string) {
-    return await this.model.findOne({ _id });
+    return await this.donationModel.findOne({ _id });
   }
 
   async update(_id: string, dto: UpdateDonationDto) {
@@ -91,14 +99,14 @@ export class DonationsService {
 
     await this.transformBody(rawData);
 
-    return await this.model.updateOne({ _id }, rawData);
+    return await this.donationModel.updateOne({ _id }, rawData);
   }
 
   async remove(_id: string) {
-    return await this.model.deleteOne({ _id });
+    return await this.donationModel.deleteOne({ _id });
   }
 
   async findByName(name: string) {
-    return await this.model.find({ name: name.toUpperCase() });
+    return await this.donationModel.find({ name: name.toUpperCase() });
   }
 }

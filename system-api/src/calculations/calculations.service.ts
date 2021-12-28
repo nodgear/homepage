@@ -15,8 +15,8 @@ export class CalculationsService {
   ) {}
   async save(createCalculationDto: CreateCalculationDto, session: any) {
     console.log(createCalculationDto);
-    return await this.model.findOneAndUpdate(
-      {},
+    await this.model.findOneAndUpdate(
+      undefined,
       {
         amount: createCalculationDto.amount,
         donationsCount: createCalculationDto.donationsCount,

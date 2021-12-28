@@ -1,14 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsNumber,
-  IsNumberString,
-  IsOptional,
-  IsString,
-  IS_LENGTH,
-  Length,
-} from 'class-validator';
+import { IsNumberString, IsOptional, IsString, Length } from 'class-validator';
 
 export class GetDonationsDto {
   @ApiProperty({ required: false })
