@@ -1,12 +1,9 @@
 import {
   Controller,
-  Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
-  BadRequestException,
+  InternalServerErrorException,
+  HttpException,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AdministratorsService } from './administrators.service';
@@ -20,30 +17,9 @@ export class AdministratorsController {
   @Post()
   async create(@Body() dto: CreateAdministratorDto) {
     try {
-      // await this.administratorsService.verifyUser(dto);
+      return await this.administratorsService.create(dto);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new HttpException(error.message, error.response.statusCode);
     }
-    return this.administratorsService.create(dto);
   }
-
-  // @Get()
-  // findAll() {
-  //   return 'disabled route'
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') _id: string) {
-  //   return 'disabled route'
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') _id: string, @Body() dto: UpdateAdministratorDto) {
-  //   return 'disabled route'
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') _id: string) {
-  //   return 'disabled route';
-  // }
 }

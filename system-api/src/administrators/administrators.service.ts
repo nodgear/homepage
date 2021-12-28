@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
@@ -22,14 +27,7 @@ export class AdministratorsService {
     @InjectModel(Administrator.name)
     private model: Model<AdministratorDocument>,
   ) {}
-
-  private async formatDto(dto: any) {
-    if (dto.email) dto.email = dto.email.toLowerCase();
-
-    if (dto.password) dto.password = await this.crypt(dto.password);
-  }
-
-  public async crypt(password) {
+  public async crypt(password: string) {
     return await bcrypt.hash(password, 14);
   }
 
@@ -42,7 +40,7 @@ export class AdministratorsService {
     password,
   }: IVerifyPassword): Promise<void> {
     const isValidPassword = await this.comparePassword(password, user.password);
-    if (!isValidPassword) throw Error('Senha inválida');
+    if (!isValidPassword) throw new BadRequestException('Senha inválida');
   }
 
   async findOne({ email }: Omit<IUser, 'password'>) {
@@ -50,27 +48,26 @@ export class AdministratorsService {
   }
 
   async create(dto: CreateAdministratorDto) {
-    const rawData = { ...dto };
-    await this.formatDto(rawData);
+    const existingAdministrator = await this.findOne({
+      email: dto.existingEmail,
+    });
+    if (!existingAdministrator)
+      throw new NotFoundException('Administrador não encontrado');
+    await this.verifyPassword({
+      password: dto.existingpassword,
+      user: existingAdministrator,
+    });
 
-    const created = new this.model(rawData);
+    const emailAlreadyExists = await this.findOne({
+      email: dto.newEmail,
+    });
+    if (emailAlreadyExists) throw new ConflictException('Email já cadastrado');
 
-    return await created.save();
+    const newAdministratorData = {} as IUser;
+    newAdministratorData.email = dto.newEmail.toLowerCase();
+    newAdministratorData.password = await this.crypt(dto.newPassword);
+
+    const newAdministrator = new this.model(newAdministratorData);
+    return await newAdministrator.save();
   }
-
-  // findAll() {
-  //   return `unused method`;
-  // }
-
-  // findOne(id: number) {
-  //   return `unused method`;
-  // }
-
-  // update(id: number, dto: UpdateAdministratorDto) {
-  //   return `unused method`;
-  // }
-
-  // remove(id: number) {
-  //   return `unused method`;
-  // }
 }

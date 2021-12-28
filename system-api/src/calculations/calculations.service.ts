@@ -1,26 +1,27 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateCalculationDto } from './dto/create-calculation.dto';
-import { UpdateCalculationDto } from './dto/update-calculation.dto';
+import {
+  Calculation,
+  CalculationDocument,
+} from './entities/calculation.entity';
 
 @Injectable()
 export class CalculationsService {
-  create(createCalculationDto: CreateCalculationDto) {
-    return 'This action adds a new calculation';
+  constructor(
+    @InjectModel(Calculation.name)
+    private model: Model<CalculationDocument>,
+  ) {}
+  async save(createCalculationDto: CreateCalculationDto, session: any) {
+    return await this.model.findOneAndUpdate(
+      {},
+      { createCalculationDto },
+      { upsert: true, session },
+    );
   }
 
-  findAll() {
-    return `This action returns all calculations`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} calculation`;
-  }
-
-  update(id: number, updateCalculationDto: UpdateCalculationDto) {
-    return `This action updates a #${id} calculation`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} calculation`;
+  async findOne() {
+    return await this.model.findOne();
   }
 }
