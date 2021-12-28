@@ -9,7 +9,7 @@ const navbar = () => {
   }
 
   return (
-    <nav className='flex px-20 py-8'>
+    <nav className='fixed flex w-full px-20 py-8'>
       <div className='mr-auto'>
         <img src="/logo_vertical.png" className='w-64'/>
       </div>
