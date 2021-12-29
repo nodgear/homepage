@@ -7,8 +7,8 @@ import Head from 'next/head';
 
 const transparency = () => {
   const { isLoading, data } = useFetch(`${config.apiEndPoint}/actions`)
-  if (isLoading) { return <>Carregando</>}
-  console.log(data)
+  if (isLoading) { return <div className='flex items-center justify-center w-full h-screen text-2xl text-center'>Carregando</div>}
+
   return <>
     <Head>
       <title>Podemos Ajudar</title>
