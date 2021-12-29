@@ -11,16 +11,20 @@
       "avatar": ""
     }
   ],
-  "apiEndPoint": "http://localhost:5000",
+  "apiEndPoint": "http://localhost:3000",
   "chavePix": "2185841895612357",
   "pontosColeta": [
     {
       "cidade": "Itabuna",
-      "endereco": ["Igreja Batista Nacional Betânia - Av Manoel Chaves, 2801, São Caetano, Itabuna-BA."]
+      "endereco": [
+        "Igreja Batista Nacional Betânia - Av Manoel Chaves, 2801, São Caetano, Itabuna-BA."
+      ]
     },
     {
       "cidade": "Feira de Santana",
-      "endereco": ["Primeira Igreja Batista - Rua Visconde do Rio Branco - 518 - Feira de Santana - Horário Comercial."]
+      "endereco": [
+        "Primeira Igreja Batista - Rua Visconde do Rio Branco - 518 - Feira de Santana - Horário Comercial."
+      ]
     }
   ]
 }

@@ -77,14 +77,15 @@ export class DonationsService {
     const filter = {} as any;
 
     if (props.name) {
-      filter.name = props.name.toUpperCase();
+      filter.$text = {
+        $search: props.name,
+      };
     }
     const doacoes = await this.donationModel
       .find(filter)
       .limit(limit)
       .skip(skip)
       .sort({ createdAt: 'desc' });
-    console.log(doacoes);
 
     const { amount, donationsCount } = await this.calculationsService.findOne();
     return { ...doacoes, amount, donationsCount };

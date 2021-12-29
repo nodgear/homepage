@@ -5,7 +5,7 @@ export type DonationDocument = Donation & Document;
 
 @Schema({ timestamps: true })
 export class Donation {
-  @Prop({ required: true, index: true })
+  @Prop({ required: true })
   name: string;
 
   @Prop({ required: true })
@@ -14,4 +14,7 @@ export class Donation {
   @Prop({ required: true })
   administratorId: string;
 }
-export const DonationSchema = SchemaFactory.createForClass(Donation);
+const DonationSchema = SchemaFactory.createForClass(Donation);
+DonationSchema.index({ name: 'text' });
+
+export { DonationSchema };
