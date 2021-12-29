@@ -1,8 +1,5 @@
 import Head from 'next/head'
-import Navbar from '@components/Navbar'
-import QuemSomos from '@components/sections/QuemSomos'
-import DonationFeed from '@components/sections/DonationFeed'
-import OutboundTransaction from '@components/sections/OutboundTransaction'
+import AboutUs from '@components/sections/AboutUs'
 
 export default function Home() {
   return <>
@@ -16,14 +13,6 @@ export default function Home() {
       <meta property="og:site_name" content="Nome projeto"/>
       <meta property="og:type" content="website"/>
     </Head>
-    <Navbar />
-    <QuemSomos />
-    <DonationFeed list={[
-      {
-        name: 'Fulano',
-        value: 50
-      }
-    ]} totalGathered={69} totalTransactions={69}/>
-    <OutboundTransaction />
+    <AboutUs />
   </>
 }
