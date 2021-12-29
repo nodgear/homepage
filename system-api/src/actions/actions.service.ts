@@ -85,7 +85,7 @@ export class ActionsService {
 
     const session = await this.connection.startSession();
     await session.withTransaction(async () => {
-      await action.save();
+      await action.save({ session });
       await this.calculationsService.save(newDonationsInfo, session);
     });
     session.endSession();
