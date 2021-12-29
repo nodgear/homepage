@@ -17,7 +17,7 @@ function OutboundTransaction(props) {
 
 
   const TransactionItem = ({title, description, image, amount}: {title:string, description: string, image?: string, amount: number | string}) => {
-    return <div className='flex flex-col w-full px-6 mb-6 lg:px-20 lg:flex-row'>
+    return <div className='flex flex-col w-full px-6 mb-32 lg:px-20 lg:flex-row'>
       <div className='flex justify-center w-full mr-6'>
         <img src={image} className='w-full rounded-md lg:w-64'/>
       </div>

@@ -53,12 +53,14 @@ export default function(props: ListProps) {
       </div>
     </div>
     <div className='flex flex-col items-center justify-center h-full lg:w-1/3'>
-      <div className="flex flex-col w-2/3 h-full px-6 py-6 overflow-y-auto bg-white rounded-md lg:w-full bg-opacity-40">
+        {
+        transformList().length < 1 
+        ? <div className='w-full text-center'>Nenhuma doação até o momento :(</div>
+        : <div className="flex flex-col w-2/3 h-full px-6 py-6 overflow-y-auto bg-white rounded-md lg:w-full bg-opacity-40">
         {transformList().map( (transaction, index) => {
           return <DonationItem name={transaction.name} value={transaction.value} key={`donation.${transaction.name}.${index}`}/>
         })}
-        {transformList().length < 1 && <div className='w-full text-center'>Nenhuma doação até o momento :(</div>}
-      </div>
+      </div>}
     </div>
     </section>
 }
