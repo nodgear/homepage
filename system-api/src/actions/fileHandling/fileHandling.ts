@@ -9,8 +9,8 @@ export class Helper {
       }else if(file.mimetype.indexOf("jpg") > -1){
           fileExtension = "jpg";
       }
-      const originalName = file.originalname.split(".")[0];
-      cb(null, originalName + '-' +'donation'+uniqueSuffix+"."+fileExtension);
+      //const originalName = file.originalname.split(".")[0];
+      cb(null, 'img' + '-' +'donation'+uniqueSuffix+"."+fileExtension);
     }
    
 }
