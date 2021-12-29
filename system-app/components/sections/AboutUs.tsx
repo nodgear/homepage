@@ -4,6 +4,7 @@ import People from '@components/People'
 import config from '../../config.json'
 
 const QuemSomos = () => {
+
   return (
     <section className='flex flex-col items-center h-screen px-6 lg:flex-row lg:px-20'>
       <div className='flex flex-col lg:w-1/2'>

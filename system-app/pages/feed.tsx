@@ -1,13 +1,15 @@
+//@ts-nocheck
+
 import DonationFeed from '@components/sections/DonationFeed';
+import { data } from 'autoprefixer';
 import React from 'react';
+import useFetch from 'react-fetch-hook'
+
+import config from '../config.json'
 
 const feed = () => {
-  return  <DonationFeed list={[
-    {
-      name: 'Fulano',
-      value: 50
-    }
-  ]} totalGathered={69} totalTransactions={69}/>
+
+  return  <DonationFeed/>
 };
 
 export default feed;
