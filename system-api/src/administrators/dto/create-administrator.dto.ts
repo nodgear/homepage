@@ -1,22 +1,26 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class CreateAdministratorDto {
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsEmail()
-    email: string;
-  
-    @ApiProperty()
-    @IsNotEmpty()
-    password: string;
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsEmail()
+  existingEmail: string;
 
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsEmail()
-    emailUser: string;
-  
-    @ApiProperty()
-    @IsNotEmpty()
-    passwordUser: string;
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  @Length(8)
+  existingpassword: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsEmail()
+  newEmail: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  @Length(8)
+  newPassword: string;
 }

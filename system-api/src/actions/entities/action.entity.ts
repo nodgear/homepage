@@ -4,7 +4,7 @@ import { Document } from 'mongoose';
 export type ActionDocument = Action & Document;
 @Schema({ timestamps: true })
 export class Action {
-    @Prop({ unique: true })
+    @Prop()
     title: string;
 
     @Prop({ required: true })
@@ -12,9 +12,6 @@ export class Action {
 
     @Prop({ required: true })
     amount: number;
-
-    @Prop()
-    fileName: string;
 
     @Prop()
     documentPath: Array<string>

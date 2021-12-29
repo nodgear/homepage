@@ -1,54 +1,43 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Query,
+  HttpException,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AdministratorsService } from 'src/administrators/administrators.service';
 import { DonationsService } from './donations.service';
 import { CreateDonationDto } from './dto/create-donation.dto';
+import { GetDonationsDto } from './dto/get-donations.dto';
 
 @ApiTags('donations')
 @Controller('donations')
 export class DonationsController {
-  constructor(private readonly donationsService: DonationsService,
-    private readonly administratorsService: AdministratorsService) {}
+  constructor(private readonly donationsService: DonationsService) {}
 
   @Post()
   async create(@Body() dto: CreateDonationDto) {
     try {
-      await this.administratorsService.verifyUser(dto);
+      return await this.donationsService.create(dto);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new HttpException(error.message, error.response.statusCode);
     }
-    return this.donationsService.create(dto);
-  }
-  
-  @Get('amount')
-  getAmount(){
-    return this.donationsService.findAmount();
   }
 
-  @Get('all')
-  findAll() {
-    return this.donationsService.findAll();
-  }
-
-  @Get(':name')
-  findByName(@Param('name') name: string) {
-    return this.donationsService.findByName(name);
+  @Get()
+  async findAll(@Query() dto: GetDonationsDto) {
+    try {
+      return await this.donationsService.findAll(dto);
+    } catch (error) {
+      throw new HttpException(error.message, error.response.statusCode);
+    }
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.donationsService.findOne(id);
   }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() dto: UpdateDonationDto) {
-  //   return this.donationsService.update(id, dto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.donationsService.remove(id);
-  // }
-
- 
 }
