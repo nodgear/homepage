@@ -23,7 +23,6 @@ import { ActionsModule } from './actions/actions.module';
     DonationsModule,
     AdministratorsModule,
     ActionsModule,
-    // CalculationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
