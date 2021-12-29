@@ -3,9 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
   UseInterceptors,
   UploadedFiles,
   BadRequestException,
@@ -13,7 +10,6 @@ import {
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
-import { AdministratorsService } from 'src/administrators/administrators.service';
 import { ActionsService } from './actions.service';
 import { CreateActionDto } from './dto/create-action.dto';
 import { Helper } from './fileHandling/fileHandling';
@@ -36,7 +32,6 @@ export class ActionsController {
     const response = [];
     files.forEach((file) => {
       const fileReponse = {
-        originalname: file.originalname,
         filename: file.filename,
         fileBuffer: '',
       };

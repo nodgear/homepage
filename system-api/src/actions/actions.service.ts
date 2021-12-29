@@ -6,7 +6,6 @@ import {
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { join } from 'path';
-// import { join } from 'path/posix';
 import { AdministratorsService } from 'src/administrators/administrators.service';
 import { CalculationsService } from 'src/calculations/calculations.service';
 import { CreateCalculationDto } from 'src/calculations/dto/create-calculation.dto';

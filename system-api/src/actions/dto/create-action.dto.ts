@@ -18,11 +18,6 @@ export class CreateActionDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsString()
-  fileName: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
   @IsEmail()
   emailUser: string;
 
