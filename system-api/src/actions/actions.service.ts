@@ -68,9 +68,9 @@ export class ActionsService {
 
     this.formatBody(dto);
 
-    for (const iterator of files) {
-      iterator.fileBuffer = this.fileToBase64(iterator.filename);
-    }
+    // for (const iterator of files) {
+    //   iterator.fileBuffer = this.fileToBase64(iterator.filename);
+    // }
     const data = this.createSaveObject(files, dto);
 
     const action = new this.model(data);
