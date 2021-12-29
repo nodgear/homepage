@@ -89,6 +89,6 @@ export class ActionsService {
   }
 
   async findAll() {
-    return await this.model.find();
+    return await this.model.find().sort({ createdAt: 'desc' });
   }
 }
