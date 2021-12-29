@@ -41,7 +41,7 @@ export default function(props: ListProps) {
           Número de doadores:<span className='ml-2 text-white'>{isLoading ? 'Carregando' : data?.donationsCount}</span>
         </h1>
         <h1 className='text-3xl font-bold text-accent'>
-          Valor arrecadado:<span className='ml-2 text-white'>{isLoading ? 'Carregando' :  Math.round(Number( data.amount))}</span>
+          Valor arrecadado:<span className='ml-2 text-white'>R$ {isLoading ? 'Carregando' :  Math.round(Number( data.amount))}</span>
         </h1>
         <input type="text" name="search" placeholder="Pesquise um doador:" className="w-1/2 px-2 py-2 mt-12 text-black bg-white border border-white rounded-md bg-opacity-40 border-opacity-60" onChange={(e)=>{
           if (e.target.value.trim() !== '' && e.target.value.trim().length > 3) {
@@ -57,6 +57,7 @@ export default function(props: ListProps) {
         {transformList().map( (transaction, index) => {
           return <DonationItem name={transaction.name} value={transaction.value} key={`donation.${transaction.name}.${index}`}/>
         })}
+        {transformList().length < 1 && <div className='w-full text-center'>Nenhuma doação até o momento :(</div>}
       </div>
     </div>
     </section>
