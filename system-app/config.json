@@ -1,18 +1,8 @@
 {
   "contribuidores": [
-    {
-      "name": "Matheus Alves",
-      "bio": "Lorem ipsum",
-      "avatar": "https://i.wisp.run/f/7kopw9.png"
-    },
-    {
-      "name": "Lorem",
-      "bio": "Lorem ipsum",
-      "avatar": ""
-    }
   ],
-  "apiEndPoint": "http://localhost:5000",
-  "chavePix": "2185841895612357",
+  "apiEndPoint": "http://vdev.mjsv.us:8899",
+  "chavePix": "75999559867",
   "pontosColeta": [
     {
       "cidade": "Itabuna",
