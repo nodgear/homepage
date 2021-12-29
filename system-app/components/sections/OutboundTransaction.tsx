@@ -41,7 +41,7 @@ function OutboundTransaction(props) {
       <h1 className='my-12 mb-12 text-2xl font-bold text-white uppercase lg:text-3xl'>O que estamos fazendo</h1>
       {props.list.map( action => {
         console.log(action)
-        return <TransactionItem title={action.title} description={action.description} amount={action.amount} image={`${config.apiEndPoint}/assets/${action.documentPath[0].filename}`}/>
+        return <TransactionItem title={action.title} description={action.description} amount={action.amount} image={`${config.apiEndPoint}/assets/${action.documentPath[0].filename}`} key={`${action._id}`}/>
       })}
     </section>
   )
