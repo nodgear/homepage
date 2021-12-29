@@ -31,12 +31,10 @@ export class ActionsService {
     return base64;
   }
 
-  public async validSendFile(files, dto) {
+  public async validSendFile(files) {
     if (files.length === 0) {
       throw Error('Necessário enviar no mínimo 1 arquivo.');
     }
-    const action = await this.model.findOne({ title: dto.title.toUpperCase() });
-    if (action) throw Error('Ação já registrado');
   }
 
   private formatBody(dto: any) {
@@ -55,7 +53,7 @@ export class ActionsService {
   }
 
   async create(files, dto: CreateActionDto) {
-    this.validSendFile(files, dto);
+    this.validSendFile(files);
     if (dto.amount <= 0)
       throw new BadRequestException('O valor não pode ser menor ou igual a 0');
 

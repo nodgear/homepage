@@ -38,7 +38,7 @@ export class ActionsController {
       response.push(fileReponse);
     });
     try {
-      await this.actionsService.validSendFile(response, dto);
+      await this.actionsService.validSendFile(response);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
